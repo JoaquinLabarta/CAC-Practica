@@ -1,0 +1,58 @@
+---------------------------A-----------------------------
+org 1000h
+NUM1 dw 8
+NUM2 dw 8
+RES dw ?
+
+org 3000h
+org 2000h
+  mov dx, NUM2
+loop: add ax,NUM1
+  dec dx
+  JNZ loop
+  mov RES,ax
+  hlt
+end
+
+---------------------------B-----------------------------
+org 1000h
+NUM1 dw 8
+NUM2 dw 2
+RES dw ?
+
+org 3000h
+MUL: add ax,NUM1
+  dec dx
+  JNZ MUL
+  ret
+  
+org 2000h
+  mov dx, NUM2
+  call MUL
+  mov RES,ax
+  hlt
+end
+
+---------------------------C-----------------------------
+org 1000h
+NUM1 dw 8
+NUM2 dw 2
+RES dw ?
+
+org 3000h
+MUL: mov bx,dx ;dir contador
+  mov dx,[bx]; contador
+  mov bx,ax; dir num
+  mov ax,[bx]; num
+loop:  add cx,ax
+  dec dx
+  JNZ loop
+  ret
+  
+org 2000h
+  mov ax, offset NUM1
+  mov dx, offset NUM2
+  call MUL
+  mov RES,ax
+  hlt
+end
