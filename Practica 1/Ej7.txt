@@ -1,0 +1,49 @@
+---------------------------A-----------------------------
+org 1000h
+CADENA db "thomy"
+ db 0
+
+org 3000h
+longitud: pop dx; vuelta
+  pop bx
+  mov ax,0; contador
+loop:  cmp BYTE PTR [bx],00h; 00h
+  JZ retorno
+  inc ax
+  inc bx
+  JMP loop
+  
+retorno:  push dx
+  ret
+org 2000h
+  mov ax, OFFSET CADENA
+  push ax
+  call longitud
+  hlt
+end
+---------------------------B-----------------------------
+org 1000h
+CADENA db "tHoMy"
+ db 0
+
+org 3000h
+contar_min: mov ax,0
+loop:  cmp BYTE PTR [bx], 00h
+  JZ retorno
+  cmp BYTE PTR [bx], 61h; 1ra - a > 0
+  JS sig
+  cmp BYTE PTR [bx], 7Ah
+  JNS sig
+  inc ax
+  
+sig: inc bx
+  JMP loop
+  
+retorno: ret
+org 2000h
+  mov bx, OFFSET CADENA
+  call contar_min
+  hlt
+end
+---------------------------C-----------------------------
+
