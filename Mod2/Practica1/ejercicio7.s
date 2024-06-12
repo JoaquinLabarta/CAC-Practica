@@ -15,16 +15,15 @@ lw $t0, x($0)
 daddi $t3, $0, 0 ;cant
 daddi $t4, $0, 0 ;contador posiciones
 daddi $t5, $0, 10 ;dimf
-daddi $t7, $0, 1 ;sumador
 
 loop: 
   beqz $t5, fin  ;si llegue a cero termino
   lw $t1, tabla($t4)  ;guardo valor de tabla 
-  daddi $t4, $t4, 8  ;me muevo en tabla
-  slt $t6, $t0, $t1  ;comparo con x
-  dsub $t5, $t5, $t7 ;decremento dimf
-  bnez $t6, sumarCANT  ;si dio 1 aumento
+  slt $t6, $t0, $t1  ;comparo 
+  daddi $t5, $t5, -1 ;decremento dimf
   sd $t6, resul($t4)  ;guardo en resultado
+  daddi $t4, $t4, 8  ;me muevo en tabla
+  bnez $t6, sumarCANT  ;si dio 1 aumento
   j loop
 
 fin: sd $t3, cant($0)
